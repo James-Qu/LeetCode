@@ -10,7 +10,7 @@ public class SearchA2DMatrix {
 	public static boolean searchMatrix(int[][] matrix, int target) {
         //First compare with first element in each row using binary search. Thus we get the row the target will be at.
         //Then use binary search to locate the position in that row.
-        if(matrix==null||matrix.length==0||target<matrix[0][0]||target>matrix[matrix.length-1][matrix[0].length-1]){
+/*        if(matrix==null||matrix.length==0||target<matrix[0][0]||target>matrix[matrix.length-1][matrix[0].length-1]){
             return false;
         }
         int top=0,bottom=matrix.length-1,targetRow=0;
@@ -47,6 +47,24 @@ public class SearchA2DMatrix {
             return true;
         } else if (matrix[targetRow][right] == target) {
             return true;
+        }
+        return false;*/
+        if(matrix==null||matrix.length==0){
+            return false;
+        }
+        int rowLen=matrix.length;
+        int colLen=matrix[0].length;
+        int left=0,right=rowLen*colLen-1;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(matrix[mid/colLen][mid%colLen]==target){
+                return true;
+            }else if(matrix[mid/colLen][mid%colLen]<target){
+                left=mid+1;
+            }else{
+                right=mid-1;
+            }
+            
         }
         return false;
     }
