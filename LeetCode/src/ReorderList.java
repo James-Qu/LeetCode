@@ -9,44 +9,41 @@ public class ReorderList {
 		ListNode d=new ListNode(4);
 		a.next=b;b.next=c;c.next=d;d.next=null;
 		reorderList(a);
-		System.out.println("a.next:"+a.next.val);
+		/*System.out.println("a.next:"+a.next.val);
 		System.out.println("b.next:"+b.next.val);
 		System.out.println("c.next:"+c.next.val);
-		System.out.println("d.next:"+d.next.val);
+		System.out.println("d.next:"+d.next.val);*/
+		System.out.println(a.next.val);
 	}
     public static void reorderList(ListNode head) {
-        //get length
-        int len=0;
-        ListNode temp=head;
-        while(temp!=null){
-            len++;
-            temp=temp.next;
-        }
-        if(len<=2){
+        //base case
+        if(head==null||head.next==null||head.next.next==null){
             return;
         }
-        //reverse second half
-        int count=0;
-        ListNode dummy=head;
-        for(int i=1;i<=len/2;i++){
-            dummy=dummy.next;
+        //1.find middle point
+        ListNode fast=head.next,slow=head;
+        while(fast!=null&&fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
         }
-        ListNode dummyNext=dummy.next;
-        while(dummyNext!=null){
-            ListNode temp1=dummyNext.next;
-            dummyNext.next=dummy;
-            dummy=dummy.next;
-            dummyNext=temp1;
+        //2.reverse second half
+        ListNode head2=slow.next;
+        slow.next=null;
+        ListNode head2Next=head2.next;
+        head2.next=null;
+        while(head2Next!=null){
+            ListNode temp=head2Next.next;
+            head2Next.next=head2;
+            head2=head2Next;
+            head2Next=temp;
         }
-        
-        //relink
-        ListNode dummy1=head;
-        for(int i=1;i<=len/2;i++){
-            ListNode temp2=head.next;
-            head.next=dummy;
-            dummy.next=temp2;
-            head=temp2;
-            dummy=dummy.next;
+        //3.connect
+        ListNode n1=head,n2=head2;
+        while(n1!=null){
+            ListNode temp=n1.next;
+            n1.next=n2;
+            n1=n1.next;
+            n2=temp;
         }
     }
 }
